@@ -1,0 +1,128 @@
+:root {
+    --call-to-action: #ad0eb9;
+    --secondary-action: #005dd7;
+    --background-color: #120D31;
+    --primary-color: #212020;
+    --highlights-color: #005dd7;
+    --delete-color: red;
+    --link-color: #005dd7;
+    --plus-color: #71F79F;
+}
+
+html {
+    height: 100%;
+    position: relative;
+    font-family: "Open Sans";
+}
+
+h1 {
+    font-family: "Open Sans SemiBold";
+}
+
+body {
+    background: var(--background-color);
+    color: white;
+}
+
+a {
+    color: var(--link-color);
+}
+
+.main-container {
+    background: var(--primary-color);
+    padding: 10px;
+}
+
+.form-control {
+    background: #585858 !important;
+    color: white !important;
+}
+
+.dropdown-select {
+    background: #707070 !important;
+    color: white !important;
+}
+
+.list-group-item {
+    background: #585858 !important;
+    color: white !important;
+}
+
+::placeholder {
+    color: #989898 !important;
+}
+
+.required-field {
+    border: var(--delete-color) solid;
+}
+
+label {
+    color: var(--highlights-color);
+}
+
+
+.btn-primary {
+    margin: 10px;
+}
+
+.invisible-button {
+    background: transparent;
+    border: none !important;
+    font-size: 0;
+}
+
+.delete-button {
+    border-top: var(--highlights-color) solid;
+    border-left: var(--highlights-color) solid;
+    border-right: var(--highlights-color) solid;
+    border-bottom: var(--highlights-color) solid;
+    background: var(--primary-color);
+}
+
+.row {
+    line-height: 0px;
+    margin: 0px;
+}
+
+.icon-tabler-plus {
+    stroke: var(--plus-color);
+}
+
+.icon-tabler-square-x .icon-tabler-trash-x {
+    stroke: var(--delete-color) !important;
+}
+
+.primary-action {
+    stroke: var(--call-to-action);
+}
+
+.btn-primary {
+    background-color: var(--secondary-action) !important;
+    border-color: var(--secondary-action) !important;
+}
+
+.border-primary {
+    border-color: var(--highlights-color) !important;
+}
+
+.advanced-container {
+    background-color: var(--plus-color) !important;
+    font-family: "Open Sans SemiBold";
+    color: black;
+    margin-top: 10px;
+    padding: 15px;
+}
+
+.main-container {
+    display: flex;
+}
+
+.icon-tabler-arrow {
+    stroke: var(--plus-color) !important;
+}
+
+.card-title{
+    margin: 0px !important;
+    padding: 3px;
+    padding-left: 10px;
+}

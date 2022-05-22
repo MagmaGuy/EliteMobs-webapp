@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- JQuery for woosh -->
+<script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+<!-- JS, Popper.js, and jQuery
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+<!-- Multiple Select JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/multiple-select-js/dist/css/multiple-select.css">
+<script src="https://cdn.jsdelivr.net/npm/multiple-select-js/dist/js/multiple-select.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="css/webapp.css">
+<script src="js/download.js"></script>
+<script src="js/webapp.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/custom-items.js"></script>
+<script src="js/custom-bosses.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>EliteMobs Webapp</title>
+</head>
+<body>
+
+<!-- header, not sure of how I want to make it
+<div class="jumbotron">
+    <h1 class="display-4">EliteMobs Webapp</h1>
+    <p class="lead">Quickly create Custom Bosses, Regional Bosses, Custom Items and Treasure Chests for EliteMobs!</p>
+    <hr class="my-4">
+    <p>Select which kind of file you'd like to create:</p>
+    <p class="lead">
+    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link" data-toggle="tab" href="custom-bosses.html" role="tab"
+           aria-controls="nav-home" aria-selected="true">Custom Boss</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="regional-bosses.html" role="tab"
+           aria-controls="nav-profile" aria-selected="false">Regional Boss</a>
+        <a class="nav-item nav-link active" id="active-tab" data-toggle="tab" href="webapp.html" role="tab"
+           aria-controls="nav-profile" aria-selected="false">Custom Item</a>
+        <a class="nav-item nav-link" data-toggle="tab" href="treasure-chests.html" role="tab"
+           aria-controls="nav-profile" aria-selected="false">Treasure Chest</a>
+    </div>
+</div>
+-->
+
+<!-- Add entry button, there should only be one and it should always be at the bottom. Clicking it adds an entry of any kind! -->
+<div id="add-entry" class="text-center">
+    <button class="invisible-button" onclick="addEntry()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-plus primary-action"
+             width="100"
+             height="100" viewBox="0 0 24 24" stroke-width="2" stroke="#B689C0" fill="none" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <circle cx="12" cy="12" r="9"/>
+            <line x1="9" y1="12" x2="15" y2="12"/>
+            <line x1="12" y1="9" x2="12" y2="15"/>
+        </svg>
+    </button>
+</div>
+
+<!-- Generate button-->
+<div id="generate" class="text-center">
+    <button class="btn-primary btn" onclick="generate()">Generate files!</button>
+</div>
+
+<!-- Main selection for what kind of file will be built -->
+<template id="template-main-container">
+    <div class="container col-5">
+        <div class="delete-button d-flex">
+            <div class="card-title">
+                <!-- This gets filled as the filename form gets written -->
+            </div>
+            <div class="ml-auto">
+                <button class="invisible-button" onclick="expandEntry(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow" width="25"
+                         height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M15 19v-2a2 2 0 0 1 2 -2h2"/>
+                        <path d="M15 5v2a2 2 0 0 0 2 2h2"/>
+                        <path d="M5 15h2a2 2 0 0 1 2 2v2"/>
+                        <path d="M5 9h2a2 2 0 0 0 2 -2v-2"/>
+                    </svg>
+                </button>
+                <button class="invisible-button" onclick="arrowDown(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow" width="25"
+                         height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="16" y1="15" x2="12" y2="19"/>
+                        <line x1="8" y1="15" x2="12" y2="19"/>
+                    </svg>
+                </button>
+                <button class="invisible-button" onclick="arrowUp(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow" width="25"
+                         height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none"
+                         stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="16" y1="9" x2="12" y2="5"/>
+                        <line x1="8" y1="9" x2="12" y2="5"/>
+                    </svg>
+                </button>
+                <button class="invisible-button" onclick="deleteCardWithAnimation(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-x" width="25"
+                         height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M10 10l4 4m0 -4l-4 4"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Coloring and formatting for the card -->
+        <div class="form-group card border-primary mb-3 main-container">
+            <div>
+                <!-- Discardable contents -->
+                <h4>Pick your creation!</h4>
+                <div class="text-center">
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="createCustomItemButton(this)">
+                        Custom
+                        Item
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="createCustomBossButton(this)">
+                        Custom Boss
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="" disabled="disabled">Treasure
+                        Chest
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="" disabled="disabled">NPC
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="" disabled="disabled">Dungeon
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="" disabled="disabled">Arena
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="" disabled="disabled">Custom Event
+                    </button>
+                    <button class="btn btn-primary col-sm-4 template-button" onclick="" disabled="disabled">Custom Spawn
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<!-- Main selection for custom items -->
+<template id="template-custom-items-global">
+    <h3 class="card-header text-center">
+        Create a <a href="https://github.com/MagmaGuy/EliteMobs/wiki/%5BGuide%5D-Creating-custom-loot">Custom
+        Item</a>!
+    </h3>
+    <div>
+        <h4>Pick a template!</h4>
+        <div class="text-center">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">Blank
+                Slate
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="uniqueDropButton(this)">Unique
+                Drop
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="charmButton(this)">Charm</button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="fetchQuestItem(this)">Fetch Quest
+                Item
+            </button>
+        </div>
+    </div>
+
+    <!-- Fields are added here so they can be edited by used inputs as they go -->
+    <div style="display: none" class="field-container card-custom-item">
+        <!--Filename-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Sets the name of the file. Must follow valid file name formatting and be unique!">
+                    Filename:
+                </a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-filename" data-config-key="filename">
+                <input type="text"
+                       class="form-control required-field" placeholder="valid_unique_file_name"
+                       required
+                       data-toggle="tooltip" data-placement="right" title="Required field!"
+                       onkeyup="updateCardTitle(this)" onfocusout="updateItemFilenames()">
+            </div>
+        </div>
+
+        <!--Enabled-->
+        <div class="form-group row item-enabled">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets if the item is enabled."
+                   onclick="customItemLinkFactory('itemType')">Is Enabled:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="isEnabled">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!--Material-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Click for wiki entry! Sets the material type of the boss. Must use API values, click
+                            on the link to check valid values!"
+                   onclick="customItemLinkFactory('material')">Material:</a>
+                <img src="img/link_white.png" alt="link" style="width:15px;height:15px;" data-toggle="tooltip"
+                     data-placement="right"
+                     title="Click for valid values!"
+                     onclick="window.open('https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html')"></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="material">
+                <input type="text" class="form-control required-field material-API-names" placeholder="DIAMOND_SWORD"
+                       required data-toggle="tooltip" data-placement="right" title="Required field!"
+                       list="material-API-names">
+            </div>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets the name of the item."
+                   onclick="customItemLinkFactory('name')">Name</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="name">
+                <input type="text" class="form-control required-field" placeholder="&cCool item!"
+                       required
+                       data-toggle="tooltip" data-placement="right" title="Required field!">
+            </div>
+        </div>
+
+        <!-- Lore -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets the item lore"
+                   onclick="customItemLinkFactory('lore')">Lore:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="lore">
+                <input type="text" class="form-control lore" placeholder="&2Awesome sword!">
+            </div>
+        </div>
+
+        <!-- Enchantments -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Click for wiki entry! Sets the list of enchantments the item has."
+                   onclick="customItemLinkFactory('enchantments')">Enchantments:
+                </a><img src="img/link_white.png" alt="link" style="width:15px;height:15px;"
+                         data-toggle="tooltip"
+                         data-placement="right"
+                         title="Click for valid enchantment values!"
+                         onclick="window.open('https://hub.spigotmc.org/javadocs/spigot/org/bukkit/enchantments/Enchantment.html')">
+            </label>
+            <!-- Input -->
+            <div class="col-sm-9 form-inline config-entry config-list config-comma-separator"
+                 data-config-key="enchantments">
+                <input type="text" class="form-control col-sm-10" placeholder="DAMAGE_ALL" list="enchantments-API-name">
+                <input type="number" class="form-control col-sm-2" placeholder="1">
+            </div>
+
+        </div>
+
+        <!-- Potion Effects -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Click for wiki entry! Sets the list of potion effects the item has."
+                   onclick="customItemLinkFactory('potionEffects')">Potion Effects:
+                </a><img src="img/link_white.png" alt="link" style="width:15px;height:15px;"
+                         data-toggle="tooltip"
+                         data-placement="right"
+                         title="Click for valid potion effect values!"
+                         onclick="window.open('https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html')">
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 form-inline config-entry config-list config-comma-separator"
+                 data-config-key="potionEffects">
+                <input type="text" class="form-control col-sm-4" placeholder="SPEED" list="potion-effects-API-name">
+                <input type="number" class="form-control col-sm-2" placeholder="1">
+                <select class="form-control col-sm-3">
+                    <option></option>
+                    <option>self</option>
+                    <option>target</option>
+                </select>
+                <select class="form-control col-sm-3">
+                    <option></option>
+                    <option>continuous</option>
+                    <option>onHit</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Drop Weight -->
+        <div class="form-group row item-drop-weight">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets the drop weight of the item (check the wiki)."
+                   onclick="customItemLinkFactory('dropWeight')">Drop weight:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="dropWeight">
+                <input type="text" class="form-control" placeholder="dynamic">
+            </div>
+        </div>
+
+        <!-- Scalability -->
+        <div class="form-group row item-scalability">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets the scalability of Elite Mobs loot (check the wiki)."
+                   onclick="customItemLinkFactory('scalability')">Scalability:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="scalability">
+                <select class="form-control">
+                    <option></option>
+                    <option>fixed</option>
+                    <option>limited</option>
+                    <option>scalable</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Item Type -->
+        <div class="form-group row item-type">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets the scalability of Elite Mobs loot (check the wiki)."
+                   onclick="customItemLinkFactory('itemType')">Item Type:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="itemType">
+                <select class="form-control">
+                    <option></option>
+                    <option>custom</option>
+                    <option>unique</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Custom Model ID -->
+        <div class="form-group row item-type item-custom-model-id">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets the Custom Model ID for this item.."
+                   onclick="customItemLinkFactory('itemType')">Custom Model ID:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="customModelID">
+                <input type="number" class="form-control" placeholder="1">
+            </div>
+        </div>
+
+        <!-- Permission -->
+        <div class="form-group row item-permission">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Click for wiki entry! Sets permission required to obtain the item."
+                   onclick="customItemLinkFactory('name')">Permission</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="permission">
+                <input type="text" class="form-control" placeholder="cool.permission.here">
+            </div>
+        </div>
+
+        <!-- Advanced -->
+        <div class="text-right">
+            <button class="advanced-container row btn-primary btn" role="button" onclick="advancedButton(this)">
+                Advanced settings
+            </button>
+        </div>
+    </div>
+</template>
+
+<!-- Main selection for custom bosses -->
+<template id="template-custom-bosses-global">
+    <h3 class="card-header text-center">
+        Create a <a href="https://github.com/MagmaGuy/EliteMobs/wiki/%5BGuide%5D-Creating-Custom-Bosses">Custom
+        Boss</a>!
+    </h3>
+    <div>
+        <h4>Pick a template!</h4>
+        <div class="text-center">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Blank Slate
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Lair Boss
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Minidungeon Boss
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Minidungeon Miniboss
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Minidungeon Mob
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Minidungeon Trash Mob
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Reinforcement Mob
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+                Event Boss
+            </button>
+        </div>
+    </div>
+
+    <!-- Fields are added here so they can be edited by used inputs as they go -->
+    <div style="display: none" class="field-container card-custom-boss">
+        <!--Filename-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Sets the name of the file. Must follow valid file name formatting and be unique!">
+                    Filename:
+                </a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-filename" data-config-key="filename">
+                <input type="text"
+                       class="form-control required-field" placeholder="valid_unique_file_name"
+                       required
+                       data-toggle="tooltip" data-placement="right" title="Required field!"
+                       onkeyup="updateCardTitle(this)" onfocusout="updateBossFilenames()">
+            </div>
+        </div>
+
+        <!--Enabled-->
+        <div class="form-group row boss-enabled">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Sets if the boss is enabled.">Is Enabled:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="isEnabled">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Entity Type -->
+        <div class="form-group row boss-entity-type">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Entity Type:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="entityType">
+                <input type="text" class="form-control required-field boss-entity-type-API-Name" placeholder="ZOMBIE"
+                       required data-toggle="tooltip" data-placement="right" title="Required field!"
+                       list="boss-entity-type-API-Name">
+            </div>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group row boss-name">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Sets the name of the boss."
+                   onclick="customItemLinkFactory('name')">Name</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="name">
+                <input type="text" class="form-control required-field" placeholder="&cCool name!"
+                       required
+                       data-toggle="tooltip" data-placement="right" title="Required field!">
+            </div>
+        </div>
+
+        <!-- Level -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Level</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="level">
+                <input type="text" class="form-control required-field" placeholder="1"
+                       required
+                       data-toggle="tooltip" data-placement="right" title="Required field!">
+            </div>
+        </div>
+
+        <!--Persistent-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Persistent:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="isPersistent">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Health Multiplier -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Health Multiplier:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="healthMultiplier">
+                <input type="number" class="form-control" placeholder="1.0">
+            </div>
+        </div>
+
+        <!-- Damage Multiplier -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Damage Multiplier:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="damageMultiplier">
+                <input type="number" class="form-control" placeholder="1.0">
+            </div>
+        </div>
+
+        <!--Baby-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Baby:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="baby">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!--Drops EliteMobs Loot-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Drops EliteMobs Loot:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="dropsEliteMobsLoot">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!--Drops Vanilla Loot-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Drops Vanilla Loot:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="dropsVanillaLoot">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!--Drops Random Loot-->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Drops Random Loot:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="dropsRandomLoot">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Frozen -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Frozen:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="frozen">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Reinforcement -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Is Reinforcement:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="reinforcement">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- On Death Commands -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">On Death Commands:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="onDeathCommands">
+                <input type="text" class="form-control lore" placeholder="broadcast I die!">
+            </div>
+        </div>
+
+        <!-- On Spawn Commands -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Spawn Commands:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="onSpawnCommands">
+                <input type="text" class="form-control lore" placeholder="broadcast I live!">
+            </div>
+        </div>
+
+        <!-- On Combat Enter Commands -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Combat Enter Commands:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="onCombatEnterCommands">
+                <input type="text" class="form-control lore" placeholder="broadcast I fight!">
+            </div>
+        </div>
+
+        <!-- On Combat Leave Commands -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Combat Leave Commands:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="onCombatLeaveCommands">
+                <input type="text" class="form-control lore" placeholder="broadcast Peace!">
+            </div>
+        </div>
+
+        <!-- Death Messages -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Death Messages:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="deathMessages">
+                <input type="text" class="form-control lore" placeholder="RIP!">
+            </div>
+        </div>
+
+        <!-- Unique Loot List todo: this requires nested editing ALSO this has special formatting - this might require splitting into two fields -->
+        <div class="form-group row" data-template="template-unique-loot">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Unique Loot:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list row" data-config-key="uniqueLootList">
+                <button class="btn btn-primary col" onclick="simpleLootButton(this)">
+                    Simple
+                </button>
+                <button class="btn btn-primary col" onclick="advancedLootButton(this)">
+                    Advanced
+                </button>
+            </div>
+        </div>
+
+        <!-- Powers -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Powers:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="powers">
+                <input type="text" class="form-control boss-power-API-names" placeholder="bonus_loot.yml">
+            </div>
+        </div>
+
+        <!-- Reinforcements todo: this is a continuation from powers, requires advanced formatting to not make a pain -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Reinforcements:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="powers">
+                <input type="text" class="form-control" placeholder="check the formatting, I'll add it here later"
+                       list="custom-boss-filename-names">
+            </div>
+        </div>
+
+        <!-- On Damage Messages -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">On Damage Messages:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="onDamageMessages">
+                <input type="text" class="form-control lore" placeholder="I've hurt you!">
+            </div>
+        </div>
+
+        <!-- On Damaged Messages -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">On Damaged Messages:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="onDamagedMessages">
+                <input type="text" class="form-control lore" placeholder="I've been hurt!">
+            </div>
+        </div>
+
+        <!-- Trails -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Trails:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="trails">
+                <input type="text" class="form-control boss-trail-API-names" placeholder="FLAME"
+                       list="boss-trail-API-names">
+            </div>
+        </div>
+
+        <!-- Phases -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Phases:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-list" data-config-key="phases">
+                <input type="text" class="form-control" placeholder="boss_phase_2.yml" list="custom-boss-filename-names">
+            </div>
+        </div>
+
+        <!-- Location Message -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Location Message:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="locationMessage">
+                <input type="text" class="form-control" placeholder="Boss: $distance blocks away!">
+            </div>
+        </div>
+
+        <!-- Mounted Entity -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Mounted Entity:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="mountedEntity">
+                <input type="text" class="form-control" placeholder="boss_mount_filename.yml" list="custom-boss-filename-names">
+            </div>
+        </div>
+
+        <!-- Spawn Message -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Spawn Message:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="spawnMessage">
+                <input type="text" class="form-control" placeholder="I have spawned!">
+            </div>
+        </div>
+
+        <!-- Death message -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Death Message:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="deathMessage">
+                <input type="text" class="form-control" placeholder="I have died!">
+            </div>
+        </div>
+
+        <!-- Escape Message -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Escape Message:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="escapeMessage">
+                <input type="text" class="form-control" placeholder="I have escaped!">
+            </div>
+        </div>
+
+        <!-- Disguise -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Disguise:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="disguise">
+                <input type="text" class="form-control" placeholder="Check Libsdisguises data!">
+            </div>
+        </div>
+
+        <!-- Custom Disguise Data -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Custom Disguise Data:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="customDisguiseData">
+                <input type="text" class="form-control" placeholder="Check Libsdisguises data!">
+            </div>
+        </div>
+
+        <!-- Custom Model -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="String tooltip.">Custom Model:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-string" data-config-key="customModel">
+                <input type="text" class="form-control" placeholder="Check Model Engine data!">
+            </div>
+        </div>
+
+        <!-- Announcement Priority -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Announcement Priority:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="announcementPriority">
+                <input type="number" class="form-control" placeholder="3">
+            </div>
+        </div>
+
+        <!-- Follow Distance -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Follow Distance:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="followDistance">
+                <input type="number" class="form-control" placeholder="35">
+            </div>
+        </div>
+
+        <!-- Spawn Cooldown -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Spawn Cooldown:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="spawnCooldown">
+                <input type="number" class="form-control" placeholder="5">
+            </div>
+        </div>
+
+        <!-- Timeout -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Timeout:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="timeout">
+                <input type="number" class="form-control" placeholder="30">
+            </div>
+        </div>
+
+        <!-- Leash Radius -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Leash Radius:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="leashRadius">
+                <input type="number" class="form-control" placeholder="30">
+            </div>
+        </div>
+
+        <!-- Helmet -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Helmet:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="helmet">
+                <input type="text" class="form-control " placeholder="DIAMOND_HELMET" list="material-API-names">
+            </div>
+        </div>
+
+        <!-- Chestplate -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Chestplate:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="chestplate">
+                <input type="text" class="form-control" placeholder="DIAMOND_CHESTPLATE" list="material-API-names">
+            </div>
+        </div>
+
+        <!-- Leggings -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Leggings:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="leggings">
+                <input type="text" class="form-control" placeholder="DIAMOND_LEGGINGS" list="material-API-names">
+            </div>
+        </div>
+
+        <!-- Boots -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Boots:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="boots">
+                <input type="text" class="form-control" placeholder="DIAMOND_BOOTS" list="material-API-names">
+            </div>
+        </div>
+
+        <!-- mainHand -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Main Hand:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="mainHand">
+                <input type="text" class="form-control" placeholder="DIAMOND_SWORD" list="material-API-names">
+            </div>
+        </div>
+
+        <!-- offHand -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Off-Hand:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="offHand">
+                <input type="text" class="form-control" placeholder="SHIELD" list="material-API-names">
+            </div>
+        </div>
+
+        <!-- Is Regional Boss -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Is Regional Boss:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="isRegionalBoss">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Cull Reinforcements -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Cull Reinforcements:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="cullReinforcements">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- damageModifiers TODO this requires additional fields to work -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip" data-placement="left"
+                   title="Enum tooltip.">Damage Modifiers:</a>
+            </label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-enum" data-config-key="damageModifiers">
+                <input type="text" class="form-control damage-modifiers-API-names"
+                       placeholder="DIAMOND_SWORD">
+            </div>
+        </div>
+
+        <!-- Normalized Combat -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Boolean tooltip.">Normalized Combat:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-boolean" data-config-key="normalizedCombat">
+                <select class="form-control">
+                    <option></option>
+                    <option>true</option>
+                    <option>false</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Movement Speed Attribute -->
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label">
+                <a href="#" data-toggle="tooltip"
+                   data-placement="left"
+                   title="Number tooltip">Movement Speed:</a></label>
+
+            <!-- Input -->
+            <div class="col-sm-9 config-entry config-number" data-config-key="movementSpeedAttribute">
+                <input type="number" class="form-control" placeholder="3">
+            </div>
+        </div>
+
+        <!-- Advanced -->
+        <div class="text-right">
+            <button class="advanced-container row btn-primary btn" role="button" onclick="advancedButton(this)">
+                Advanced settings
+            </button>
+        </div>
+    </div>
+</template>
+
+<!-- SVG plus button for string lists, gets bound to fields via code -->
+<template id="template-plus-button">
+    <!-- Plus button -->
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="text-center col-10">
+            <button class="invisible-button" onclick="addNewField(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus "
+                     width="40"
+                     height="40" viewBox="0 0 24 24" stroke-width="2.5" stroke="#4700D8" fill="none"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</template>
+
+<!-- SVG trash button, gets bound to fields via code -->
+<template id="template-trash-button">
+    <button class="invisible-button col-sm-3 col-form-label text-right" onclick="removeField(this)">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash-x"
+             width="25" height="25"
+             viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round"
+             stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 7h16"/>
+            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
+            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
+            <path d="M10 12l4 4m0 -4l-4 4"/>
+        </svg>
+    </button>
+</template>
+
+<!-- Specific selector for single item or item sets -->
+<template id="template-custom-items-amount">
+    <div class="amount-container">
+        <h4>Pick amount!</h4>
+        <div class="text-center">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="simpleItemButton(this)">Simple
+                item
+            </button>
+            <button class="btn btn-primary col-sm-4 template-button" onclick="fullSetButton(this)">Full set
+            </button>
+        </div>
+    </div>
+</template>
+
+<template id="template-custom-bosses-unique-loot">
+
+</template>
+
+<template id="template-unique-loot">
+    <div class="form-group row" data-template="template-unique-loot">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip"
+               data-placement="left"
+               title="String tooltip.">Unique Loot:</a>
+        </label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-list row" data-config-key="uniqueLootList">
+            <button class="btn btn-primary col" onclick="simpleLootButton(this)">
+                Simple
+            </button>
+            <button class="btn btn-primary col" onclick="advancedLootButton(this)">
+                Advanced
+            </button>
+        </div>
+    </div>
+</template>
+
+<template id="template-custom-bosses-simple-loot">
+    <input type="text" class="form-control col-sm-10" placeholder="default value" list="custom-item-filename-names">
+    <!-- Input -->
+    <input type="number" class="form-control col-sm-2" placeholder="Chance" max="1" min="0" step="0.01">
+</template>
+
+<template id="template-custom-bosses-advanced-loot">
+    <input type="text"
+           class="form-control col-sm-10" placeholder="default value">
+    <!-- Input -->
+    <input type="number" class="form-control col-sm-2" placeholder="Chance" max="1" min="0" step="0.01">
+</template>
+
+<!-- All input types. Copy-paste from here to create new entries! -->
+<template>
+    <!--Filename-->
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip" data-placement="left"
+               title="Sets the name of the file. Must follow valid file name formatting and be unique!">
+                Filename:
+            </a>
+        </label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-filename" data-config-key="filename">
+            <input type="text"
+                   class="form-control required-field" placeholder="valid_unique_file_name"
+                   required
+                   data-toggle="tooltip" data-placement="right" title="Required field!"
+                   onkeyup="updateCardTitle(this)">
+        </div>
+    </div>
+
+    <!--Boolean-->
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip"
+               data-placement="left"
+               title="Boolean tooltip.">Boolean:</a></label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-boolean" data-config-key="key">
+            <select class="form-control">
+                <option></option>
+                <option>true</option>
+                <option>false</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- String -->
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip"
+               data-placement="left"
+               title="String tooltip.">String</a></label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-string" data-config-key="key">
+            <input type="text" class="form-control required-field" placeholder="&cCool name!"
+                   required
+                   data-toggle="tooltip" data-placement="right" title="Required field!">
+        </div>
+    </div>
+
+    <!-- Number -->
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip"
+               data-placement="left"
+               title="Number tooltip">Number:</a></label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-number" data-config-key="key">
+            <input type="number" class="form-control" placeholder="default-number-goes-here">
+        </div>
+    </div>
+
+    <!-- Enum with autosuggest -->
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip" data-placement="left"
+               title="Enum tooltip.">Enum::</a>
+            <img src="img/link_white.png" alt="link" style="width:15px;height:15px;" data-toggle="tooltip"
+                 data-placement="right"
+                 title="Click for valid values!"></label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-enum" data-config-key="material">
+            <input type="text"
+                   class="form-control" placeholder="default value">
+        </div>
+    </div>
+
+    <!-- String list -->
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label">
+            <a href="#" data-toggle="tooltip"
+               data-placement="left"
+               title="String tooltip.">String list:</a>
+        </label>
+
+        <!-- Input -->
+        <div class="col-sm-9 config-entry config-list" data-config-key="key">
+            <input type="text" class="form-control lore" placeholder="Default value">
+        </div>
+    </div>
+</template>
+
+<!-- Datalists - these get filled by scripts and server the entire document-->
+<datalist id="custom-item-filename-names"></datalist>
+<datalist id="custom-boss-filename-names"></datalist>
+<datalist id="material-API-names"></datalist>
+<datalist id="enchantments-API-name"></datalist>
+<datalist id="potion-effects-API-name"></datalist>
+<datalist id="boss-entity-type-API-Name"></datalist>
+<datalist id="boss-power-API-names"></datalist>
+<datalist id="boss-trail-API-names"></datalist>
+<datalist id="damage-modifiers-API-names"></datalist>
+
+
+</body>
+</html>
