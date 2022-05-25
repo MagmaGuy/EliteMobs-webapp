@@ -173,15 +173,27 @@ function diagonalDOMTraversal(currentElement, parentClassName, targetClassName) 
 }
 
 /**
- * Gets full contents of the card, meaning the entirety of an entry, including the header with the navigation symbols
+ * Gets full card, meaning the entirety of an entry, including the header with the navigation symbols
  * @param currentElement Element in the card
  * @returns {Element | SVGSymbolElement | SVGMetadataElement | SVGUseElement | SVGAnimateElement | SVGFEImageElement | SVGPathElement | SVGViewElement | SVGFEConvolveMatrixElement | SVGFECompositeElement | SVGEllipseElement | SVGFEOffsetElement | SVGTextElement | SVGDefsElement | SVGFETurbulenceElement | SVGImageElement | SVGFEFuncGElement | SVGMPathElement | SVGTSpanElement | SVGClipPathElement | SVGLinearGradientElement | SVGFEFuncRElement | SVGScriptElement | SVGFEColorMatrixElement | SVGFEComponentTransferElement | SVGStopElement | SVGMarkerElement | SVGFEMorphologyElement | SVGFEMergeElement | SVGFEPointLightElement | SVGForeignObjectElement | SVGFEDiffuseLightingElement | SVGStyleElement | SVGFEBlendElement | SVGCircleElement | SVGPolylineElement | SVGDescElement | SVGFESpecularLightingElement | SVGLineElement | SVGFESpotLightElement | SVGFETileElement | SVGPatternElement | SVGTitleElement | SVGSwitchElement | SVGRectElement | SVGFEDisplacementMapElement | SVGFEFuncAElement | SVGFEFuncBElement | SVGFEMergeNodeElement | SVGTextPathElement | SVGFEFloodElement | SVGMaskElement | SVGAElement | SVGAnimateTransformElement | SVGSetElement | SVGSVGElement | SVGAnimateMotionElement | SVGGElement | SVGFEDistantLightElement | SVGFEDropShadowElement | SVGRadialGradientElement | SVGFilterElement | SVGPolygonElement | SVGFEGaussianBlurElement | HTMLSelectElement | HTMLLegendElement | HTMLElement | HTMLTableCaptionElement | HTMLTextAreaElement | HTMLModElement | HTMLHRElement | HTMLOutputElement | HTMLEmbedElement | HTMLCanvasElement | HTMLFrameSetElement | HTMLMarqueeElement | HTMLScriptElement | HTMLInputElement | HTMLMetaElement | HTMLStyleElement | HTMLObjectElement | HTMLTemplateElement | HTMLBRElement | HTMLAudioElement | HTMLIFrameElement | HTMLMapElement | HTMLTableElement | HTMLAnchorElement | HTMLMenuElement | HTMLPictureElement | HTMLParagraphElement | HTMLTableCellElement | HTMLTableSectionElement | HTMLQuoteElement | HTMLProgressElement | HTMLLIElement | HTMLTableRowElement | HTMLFontElement | HTMLSpanElement | HTMLTableColElement | HTMLOptGroupElement | HTMLDataElement | HTMLDListElement | HTMLFieldSetElement | HTMLSourceElement | HTMLBodyElement | HTMLDirectoryElement | HTMLDivElement | HTMLUListElement | HTMLDetailsElement | HTMLHtmlElement | HTMLAreaElement | HTMLPreElement | HTMLMeterElement | HTMLFrameElement | HTMLOptionElement | HTMLImageElement | HTMLLinkElement | HTMLHeadingElement | HTMLSlotElement | HTMLVideoElement | HTMLTitleElement | HTMLButtonElement | HTMLHeadElement | HTMLDialogElement | HTMLParamElement | HTMLTrackElement | HTMLOListElement | HTMLDataListElement | HTMLLabelElement | HTMLFormElement | HTMLTimeElement | HTMLBaseElement}
  */
-function getCardContents(currentElement) {
+function getCard(currentElement) {
     return currentElement.closest('.container');
 }
 
 //Global scripts
+
+function initializeConfigLists(card){;
+    const container = card.querySelector('.field-container');
+    for (const child of container.getElementsByClassName('config-list')) {
+        let div = document.createElement("div");
+        div.classList.add('field-group')
+        let parent = child.closest('.form-group').parentNode;
+        parent.insertBefore(div, child.closest('.form-group'));
+        div.appendChild(child.closest('.form-group'));
+        div.appendChild(document.getElementById('template-plus-button').content.cloneNode(true));
+    }
+}
 
 /**
  * TODO: This needs a new solution
@@ -222,7 +234,7 @@ function expandEntry(expandButton) {
  * @param downButton Button that does the moving
  */
 function arrowDown(downButton) {
-    const currentBox = getCardContents(downButton);
+    const currentBox = getCard(downButton);
     const allChildren = document.body.getElementsByClassName('container');
     const currentBoxIndex = Array.prototype.indexOf.call(allChildren, currentBox);
     if (allChildren[currentBoxIndex + 1] === undefined) return;
@@ -234,7 +246,7 @@ function arrowDown(downButton) {
  * @param upButton Button that does the moving
  */
 function arrowUp(upButton) {
-    const currentBox = getCardContents(upButton);
+    const currentBox = getCard(upButton);
     const allChildren = document.body.getElementsByClassName('container');
     const currentBoxIndex = Array.prototype.indexOf.call(allChildren, currentBox);
     if (allChildren[currentBoxIndex - 1] === undefined) return;
@@ -254,7 +266,7 @@ function updateCardTitle(filenameForm) {
  * @param deleteButton Element to delete
  */
 function deleteCardWithAnimation(deleteButton) {
-    fadeAnimation(getCardContents(deleteButton));
+    fadeAnimation(getCard(deleteButton));
 }
 
 /**
@@ -282,23 +294,21 @@ function fadeAnimation(element) {
  * @param button
  */
 function addNewField(button) {
-    //top level of the button
-    //const templateContainer = button.parentNode.parentNode;
-    const templateContainer = button.closest('.row')
-    //0 contents of the box the button is in
-    //const boxContents = button.parentNode.parentNode.parentNode;
-    const boxContents = button.closest('.field-container');
-    //index of where the button is in
-    let templateChildIndex = Array.from(boxContents.children).indexOf(templateContainer);
+    const templateContainer = button.closest('.field-group');
+    console.log(templateContainer);
+    const contentsToClone = templateContainer.children[0];
+    console.log(contentsToClone);
     //deep clone of the previous line
-    let clonedLine = boxContents.children[templateChildIndex - 1].cloneNode(true);
+    let clonedLine = contentsToClone.cloneNode(true);
+    console.log(clonedLine);
+    let lastChild = button.closest('.row');
     //Sometimes just cloning the previous line isn't enough for complex inputs, in which case data-template="" stores the template that should get used
     if (clonedLine.dataset.template !== undefined && clonedLine.dataset.template !== "") {
         let documentFragment = document.getElementById(clonedLine.dataset.template).content.cloneNode(true);
-        boxContents.children[templateChildIndex - 1].after(documentFragment);
-        clonedLine = boxContents.children[templateChildIndex];
+        lastChild.before(documentFragment);
+        clonedLine = templateContainer.children[templateContainer.length - 2];
     } else
-        boxContents.children[templateChildIndex - 1].after(clonedLine);
+        lastChild.before(clonedLine);
     if (!clonedLine.classList.contains("cloned")) {
         clonedLine.classList.add("cloned");
         let trash = document.getElementById('template-trash-button').content.cloneNode(true);
@@ -322,11 +332,40 @@ function removeField(button) {
 
 /**
  * Used for advanced fields, this hides them from sight until the advanced settings button is pressed.
- * @param field Field to hide
+ * @param className Field to hide
  */
-function hideField(field) {
+function hideField(button, className) {
+    const card = getCard(button);
+    let field = card.querySelector(className);
+    if (field.closest('.field-group') !== null)
+        field = field.closest('.field-group');
     field.classList.add('advanced-collapse');
     field.classList.add('collapse');
+}
+
+/**
+ * Used to preset fields with a specific value and then hide them when using templates
+ * @param className
+ * @param value
+ */
+function presetAndHideField(button, className, value){
+    presetField(button, className, value);
+    hideField(button, className);
+}
+
+/**
+ * Used to preset a field but still leave the option exposed for customization
+ * @param container
+ * @param className
+ * @param value
+ */
+function presetField(button, className, value){
+    console.log("getting card");
+    const card = getCard(button);
+    const field = card.querySelector(className);
+    const form = field.querySelector('.form-control');
+    form.value = value;
+    console.log(form);
 }
 
 /**

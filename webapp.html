@@ -26,7 +26,6 @@
 <link rel="stylesheet" type="text/css" href="css/webapp.css">
 <script src="js/download.js"></script>
 <script src="js/webapp.js"></script>
-<script src="js/utils.js"></script>
 <script src="js/custom-items.js"></script>
 <script src="js/custom-bosses.js"></script>
 <script src="js/treasure-chest.js"></script>
@@ -430,7 +429,7 @@
             <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
                 Blank Slate
             </button>
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="lairBossButton(this)">
                 Lair Boss
             </button>
             <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
@@ -524,7 +523,7 @@
         </div>
 
         <!-- Level -->
-        <div class="form-group row">
+        <div class="form-group row boss-level">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -539,7 +538,7 @@
         </div>
 
         <!--Persistent-->
-        <div class="form-group row">
+        <div class="form-group row boss-persistent">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -556,7 +555,7 @@
         </div>
 
         <!-- Health Multiplier -->
-        <div class="form-group row">
+        <div class="form-group row boss-health-multiplier">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -569,7 +568,7 @@
         </div>
 
         <!-- Damage Multiplier -->
-        <div class="form-group row">
+        <div class="form-group row boss-damage-multiplier">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -582,7 +581,7 @@
         </div>
 
         <!--Baby-->
-        <div class="form-group row">
+        <div class="form-group row boss-baby">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -599,7 +598,7 @@
         </div>
 
         <!--Drops EliteMobs Loot-->
-        <div class="form-group row">
+        <div class="form-group row boss-drops-elitemobs-loot">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -616,7 +615,7 @@
         </div>
 
         <!--Drops Vanilla Loot-->
-        <div class="form-group row">
+        <div class="form-group row boss-drops-vanilla-loot">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -633,7 +632,7 @@
         </div>
 
         <!--Drops Random Loot-->
-        <div class="form-group row">
+        <div class="form-group row boss-drops-random-loot">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -650,7 +649,7 @@
         </div>
 
         <!-- Frozen -->
-        <div class="form-group row">
+        <div class="form-group row boss-frozen">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -667,7 +666,7 @@
         </div>
 
         <!-- Reinforcement -->
-        <div class="form-group row">
+        <div class="form-group row boss-reinforcement">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -684,7 +683,7 @@
         </div>
 
         <!-- On Death Commands -->
-        <div class="form-group row">
+        <div class="form-group row boss-on-death-commands">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -698,7 +697,7 @@
         </div>
 
         <!-- On Spawn Commands -->
-        <div class="form-group row">
+        <div class="form-group row boss-on-spawn-commands">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -712,7 +711,7 @@
         </div>
 
         <!-- On Combat Enter Commands -->
-        <div class="form-group row">
+        <div class="form-group row boss-on-combat-enter-commands">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -726,7 +725,7 @@
         </div>
 
         <!-- On Combat Leave Commands -->
-        <div class="form-group row">
+        <div class="form-group row boss-on-combat-leave-commands">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -740,7 +739,7 @@
         </div>
 
         <!-- Death Messages -->
-        <div class="form-group row">
+        <div class="form-group row boss-death-messages">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -754,7 +753,7 @@
         </div>
 
         <!-- Unique Loot List todo: this requires nested editing ALSO this has special formatting - this might require splitting into two fields -->
-        <div class="form-group row" data-template="template-unique-loot">
+        <div class="form-group row boss-unique-loot-list" data-template="template-unique-loot">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -773,7 +772,7 @@
         </div>
 
         <!-- Powers -->
-        <div class="form-group row">
+        <div class="form-group row boss-powers">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -787,7 +786,7 @@
         </div>
 
         <!-- Reinforcements todo: this is a continuation from powers, requires advanced formatting to not make a pain -->
-        <div class="form-group row">
+        <div class="form-group row boss-reinforcements">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -802,7 +801,7 @@
         </div>
 
         <!-- On Damage Messages -->
-        <div class="form-group row">
+        <div class="form-group row boss-on-damages-messages">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -816,7 +815,7 @@
         </div>
 
         <!-- On Damaged Messages -->
-        <div class="form-group row">
+        <div class="form-group row boss-on-damaged-messages">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -830,7 +829,7 @@
         </div>
 
         <!-- Trails -->
-        <div class="form-group row">
+        <div class="form-group row boss-trails">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -845,7 +844,7 @@
         </div>
 
         <!-- Phases -->
-        <div class="form-group row">
+        <div class="form-group row boss-phases">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -860,7 +859,7 @@
         </div>
 
         <!-- Location Message -->
-        <div class="form-group row">
+        <div class="form-group row boss-location-message">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -874,7 +873,7 @@
         </div>
 
         <!-- Mounted Entity -->
-        <div class="form-group row">
+        <div class="form-group row boss-mounted-entity">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -889,7 +888,7 @@
         </div>
 
         <!-- Spawn Message -->
-        <div class="form-group row">
+        <div class="form-group row boss-spawn-message">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -903,7 +902,7 @@
         </div>
 
         <!-- Death message -->
-        <div class="form-group row">
+        <div class="form-group row boss-death-message">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -917,7 +916,7 @@
         </div>
 
         <!-- Escape Message -->
-        <div class="form-group row">
+        <div class="form-group row boss-escape-message">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -931,7 +930,7 @@
         </div>
 
         <!-- Disguise -->
-        <div class="form-group row">
+        <div class="form-group row boss-disguise">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -945,7 +944,7 @@
         </div>
 
         <!-- Custom Disguise Data -->
-        <div class="form-group row">
+        <div class="form-group row boss-custom-disguise-data">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -959,7 +958,7 @@
         </div>
 
         <!-- Custom Model -->
-        <div class="form-group row">
+        <div class="form-group row boss-custom-model">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -973,7 +972,7 @@
         </div>
 
         <!-- Announcement Priority -->
-        <div class="form-group row">
+        <div class="form-group row boss-announcement-priority">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -986,7 +985,7 @@
         </div>
 
         <!-- Follow Distance -->
-        <div class="form-group row">
+        <div class="form-group row boss-follow-distance">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -999,7 +998,7 @@
         </div>
 
         <!-- Spawn Cooldown -->
-        <div class="form-group row">
+        <div class="form-group row boss-spawn-cooldown">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1012,7 +1011,7 @@
         </div>
 
         <!-- Timeout -->
-        <div class="form-group row">
+        <div class="form-group row boss-timeout">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1025,7 +1024,7 @@
         </div>
 
         <!-- Leash Radius -->
-        <div class="form-group row">
+        <div class="form-group row boss-leash-radius">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1038,7 +1037,7 @@
         </div>
 
         <!-- Helmet -->
-        <div class="form-group row">
+        <div class="form-group row boss-helmet">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Helmet:</a></label>
@@ -1050,7 +1049,7 @@
         </div>
 
         <!-- Chestplate -->
-        <div class="form-group row">
+        <div class="form-group row boss-chestplate">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Chestplate:</a>
@@ -1063,7 +1062,7 @@
         </div>
 
         <!-- Leggings -->
-        <div class="form-group row">
+        <div class="form-group row boss-leggings">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Leggings:</a>
@@ -1076,7 +1075,7 @@
         </div>
 
         <!-- Boots -->
-        <div class="form-group row">
+        <div class="form-group row boss-boots">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Boots:</a>
@@ -1089,7 +1088,7 @@
         </div>
 
         <!-- mainHand -->
-        <div class="form-group row">
+        <div class="form-group row boss-mainhand">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Main Hand:</a>
@@ -1102,7 +1101,7 @@
         </div>
 
         <!-- offHand -->
-        <div class="form-group row">
+        <div class="form-group row boss-offhand">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Off-Hand:</a>
@@ -1115,7 +1114,7 @@
         </div>
 
         <!-- Is Regional Boss -->
-        <div class="form-group row">
+        <div class="form-group row boss-is-regional-boss">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1132,7 +1131,7 @@
         </div>
 
         <!-- Cull Reinforcements -->
-        <div class="form-group row">
+        <div class="form-group row boss-cull-reinforcements">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1149,7 +1148,7 @@
         </div>
 
         <!-- damageModifiers TODO this requires additional fields to work -->
-        <div class="form-group row">
+        <div class="form-group row boss-damage-modifiers">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Damage Modifiers:</a>
@@ -1163,7 +1162,7 @@
         </div>
 
         <!-- Normalized Combat -->
-        <div class="form-group row">
+        <div class="form-group row boss-normalized-combat">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1180,7 +1179,7 @@
         </div>
 
         <!-- Movement Speed Attribute -->
-        <div class="form-group row">
+        <div class="form-group row boss-movement-speed-attribute">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"

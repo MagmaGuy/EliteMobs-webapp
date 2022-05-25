@@ -10,12 +10,10 @@ function convertToDatalist(arrayList) {
 }
 
 function createCustomItemButton(button) {
-    let container = button.parentNode.parentNode.parentNode;
+    const card = getCard(button);
     transitionContent(button, 'template-custom-items-global');
     //Add plus buttons to string lists
-    for (const child of container.getElementsByClassName('config-list')) {
-        child.parentNode.after(document.getElementById('template-plus-button').content.cloneNode(true));
-    }
+    initializeConfigLists(card);
 }
 
 function revealItemFields(button) {
@@ -31,38 +29,35 @@ function blankSlateButton(button) {
 }
 
 function uniqueDropButton(button) {
-    const container = button.parentNode.parentNode.parentNode;
     transitionContent(button, 'template-custom-items-amount');
-    hideField(container.getElementsByClassName('item-enabled')[0]);
-    hideField(container.getElementsByClassName('item-drop-weight')[0]);
-    hideField(container.getElementsByClassName('item-scalability')[0]);
-    hideField(container.getElementsByClassName('item-type')[0]);
-    hideField(container.getElementsByClassName('item-custom-model-id')[0]);
-    hideField(container.getElementsByClassName('item-permission')[0]);
+    hideField(button, '.item-enabled');
+    hideField(button, '.item-drop-weight');
+    hideField(button, '.item-scalability');
+    hideField(button, '.item-type');
+    hideField(button, '.item-custom-model-id');
+    hideField(button, '.item-permission');
     //todo: modify fields as needed
 }
 
 function charmButton(button) {
-    const container = button.parentNode.parentNode.parentNode;
     transitionContent(button, 'template-custom-items-amount');
-    hideField(container.getElementsByClassName('item-enabled')[0]);
-    hideField(container.getElementsByClassName('item-scalability')[0]);
-    hideField(container.getElementsByClassName('item-type')[0]);
-    hideField(container.getElementsByClassName('item-custom-model-id')[0]);
-    hideField(container.getElementsByClassName('item-permission')[0]);
+    hideField(button, '.item-enabled');
+    hideField(button, '.item-scalability');
+    hideField(button, '.item-type');
+    hideField(button, '.item-custom-model-id');
+    hideField(button, '.item-permission');
     //todo: modify fields as needed
 }
 
 function fetchQuestItem(button) {
-    const container = button.parentNode.parentNode.parentNode;
     //transitionContent(button, 'template-custom-items-amount');
     revealItemFields(button);
     clearOldContent(button);
-    hideField(container.getElementsByClassName('item-enabled')[0]);
-    hideField(container.getElementsByClassName('item-drop-weight')[0]);
-    hideField(container.getElementsByClassName('item-scalability')[0]);
-    hideField(container.getElementsByClassName('item-type')[0]);
-    hideField(container.getElementsByClassName('item-custom-model-id')[0]);
+    hideField(button, '.item-enabled');
+    hideField(button, '.item-drop-weight');
+    hideField(button, '.item-scalability');
+    hideField(button, '.item-type');
+    hideField(button, '.item-custom-model-id');
     //todo: modify fields as needed
 }
 
