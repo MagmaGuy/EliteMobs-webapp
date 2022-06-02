@@ -25,40 +25,36 @@ function revealItemFields(button) {
 
 function blankSlateButton(button) {
     transitionContent(button, 'template-custom-items-amount');
-    //todo: modify fields as needed
 }
 
 function uniqueDropButton(button) {
-    transitionContent(button, 'template-custom-items-amount');
     hideField(button, '.item-enabled');
     hideField(button, '.item-drop-weight');
     hideField(button, '.item-scalability');
-    hideField(button, '.item-type');
+    presetAndHideField(button, '.item-type', 'unique');
     hideField(button, '.item-custom-model-id');
     hideField(button, '.item-permission');
-    //todo: modify fields as needed
+    transitionContent(button, 'template-custom-items-amount');
 }
 
 function charmButton(button) {
-    transitionContent(button, 'template-custom-items-amount');
     hideField(button, '.item-enabled');
+    presetField(button, '.item-drop-weight', 1);
     hideField(button, '.item-scalability');
     hideField(button, '.item-type');
     hideField(button, '.item-custom-model-id');
     hideField(button, '.item-permission');
-    //todo: modify fields as needed
+    transitionContent(button, 'template-custom-items-amount');
 }
 
 function fetchQuestItem(button) {
-    //transitionContent(button, 'template-custom-items-amount');
-    revealItemFields(button);
-    clearOldContent(button);
     hideField(button, '.item-enabled');
     hideField(button, '.item-drop-weight');
     hideField(button, '.item-scalability');
     hideField(button, '.item-type');
     hideField(button, '.item-custom-model-id');
-    //todo: modify fields as needed
+    revealItemFields(button);
+    clearOldContent(button);
 }
 
 //Amount

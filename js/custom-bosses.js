@@ -10,7 +10,6 @@ function createCustomBossButton(button) {
 function bossBlankSlateButton(button) {
     revealItemFields(button);
     clearOldContent(button);
-    //todo: modify fields as needed
 }
 
 function commonHiddenFields(button){
