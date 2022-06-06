@@ -41,6 +41,7 @@
 </head>
 
 <body class="lists">
+</body>
 <!-- header, not sure of how I want to make it
 <div class="jumbotron">
     <h1 class="display-4">EliteMobs Webapp</h1>
@@ -426,7 +427,7 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
             <button class="btn btn-primary col-sm-4 template-button" onclick="lairBossButton(this)">
@@ -1209,13 +1210,13 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="mimicChestButton(this)">
                 Mimic Chest
             </button>
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="lootChestButton(this)">
                 Loot Chest
             </button>
         </div>
@@ -1223,7 +1224,7 @@
     <!-- Fields are added here so they can be edited by used inputs as they go -->
     <div style="display: none" class="field-container card-treasure-chest">
         <!--Filename-->
-        <div class="form-group row">
+        <div class="form-group row chest-filename">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Sets the name of the file. Must follow valid file name formatting and be unique!">
@@ -1242,7 +1243,7 @@
         </div>
 
         <!--Enabled-->
-        <div class="form-group row boss-enabled">
+        <div class="form-group row chest-enabled">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1259,7 +1260,7 @@
         </div>
 
         <!-- Chest Materials -->
-        <div class="form-group row">
+        <div class="form-group row chest-materials">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Chest Material:</a>
@@ -1274,7 +1275,7 @@
         </div>
 
         <!-- Facing Direction -->
-        <div class="form-group row">
+        <div class="form-group row chest-facing-direction">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Facing Direction:</a>
@@ -1295,7 +1296,7 @@
         </div>
 
         <!-- Chest Tier -->
-        <div class="form-group row">
+        <div class="form-group row chest-tier">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1308,7 +1309,7 @@
         </div>
 
         <!-- Drop Style -->
-        <div class="form-group row">
+        <div class="form-group row chest-drop-style">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Drop Style:</a>
@@ -1327,7 +1328,7 @@
         </div>
 
         <!-- Restock Timer -->
-        <div class="form-group row">
+        <div class="form-group row chest-restock-timer">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1340,7 +1341,7 @@
         </div>
 
         <!-- Loot List -->
-        <div class="form-group row">
+        <div class="form-group row chest-loot-list">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1353,8 +1354,8 @@
             </div>
         </div>
 
-        <!-- Restock Timer -->
-        <div class="form-group row">
+        <!-- Mimic Chance -->
+        <div class="form-group row chest-mimic-chance">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1366,8 +1367,8 @@
             </div>
         </div>
 
-        <!-- Loot List -->
-        <div class="form-group row">
+        <!-- Mimic Custom Bosses -->
+        <div class="form-group row chest-mimic-custom-bosses">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1381,7 +1382,7 @@
         </div>
 
         <!-- Effects -->
-        <div class="form-group row">
+        <div class="form-group row chest-effects">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Effects:</a>
@@ -1395,6 +1396,13 @@
             </div>
         </div>
 
+        <!-- Advanced -->
+        <div class="text-right">
+            <button class="advanced-container row btn-primary btn" role="button" onclick="advancedButton(this)">
+                Advanced settings
+            </button>
+        </div>
+
     </div>
 </template>
 
@@ -1406,14 +1414,11 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
-                Mimic Chest
-            </button>
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
-                Loot Chest
+            <button class="btn btn-primary col-sm-4 template-button" onclick="questNPCButton(this)">
+                Quest Giver
             </button>
         </div>
     </div>
@@ -1439,7 +1444,7 @@
         </div>
 
         <!--Enabled-->
-        <div class="form-group row">
+        <div class="form-group row npc-enabled">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1456,7 +1461,7 @@
         </div>
 
         <!-- Name -->
-        <div class="form-group row">
+        <div class="form-group row npc-name">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1471,7 +1476,7 @@
         </div>
 
         <!-- Role -->
-        <div class="form-group row">
+        <div class="form-group row npc-role">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1485,7 +1490,7 @@
         </div>
 
         <!-- Profession -->
-        <div class="form-group row">
+        <div class="form-group row npc-profession">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Profession:</a></label>
@@ -1498,7 +1503,7 @@
         </div>
 
         <!-- Greetings -->
-        <div class="form-group row">
+        <div class="form-group row npc-greetings">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1513,7 +1518,7 @@
 
 
         <!-- Dialog list -->
-        <div class="form-group row">
+        <div class="form-group row npc-dialog-list">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1527,7 +1532,7 @@
         </div>
 
         <!-- Farewell list -->
-        <div class="form-group row">
+        <div class="form-group row npc-farewell-list">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1541,7 +1546,7 @@
         </div>
 
         <!--Can Talk-->
-        <div class="form-group row boss-enabled">
+        <div class="form-group row boss-enabled npc-can-talk">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1558,7 +1563,7 @@
         </div>
 
         <!-- Activation Radius -->
-        <div class="form-group row">
+        <div class="form-group row npc-activation-radius">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1571,7 +1576,7 @@
         </div>
 
         <!-- Interaction Type -->
-        <div class="form-group row">
+        <div class="form-group row npc-interaction-type">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip" data-placement="left"
                    title="Enum tooltip.">Interaction Type:</a></label>
@@ -1584,7 +1589,7 @@
         </div>
 
         <!-- Quest Filenames -->
-        <div class="form-group row">
+        <div class="form-group row npc-quest-filenames">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1598,7 +1603,7 @@
         </div>
 
         <!-- Disguise -->
-        <div class="form-group row">
+        <div class="form-group row npc-disguise">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1612,7 +1617,7 @@
         </div>
 
         <!-- Disguise Data -->
-        <div class="form-group row">
+        <div class="form-group row npc-disguise-data">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1626,7 +1631,7 @@
         </div>
 
         <!-- Custom Model -->
-        <div class="form-group row">
+        <div class="form-group row npc-custom-model">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1640,7 +1645,7 @@
         </div>
 
         <!-- Arena Filename -->
-        <div class="form-group row">
+        <div class="form-group row npc-arena-filename">
             <label class="col-sm-3 col-form-label">
                 <a href="#" data-toggle="tooltip"
                    data-placement="left"
@@ -1651,6 +1656,13 @@
                 <input type="text" class="form-control" placeholder="arena.yml"
                        data-toggle="tooltip" data-placement="right">
             </div>
+        </div>
+
+        <!-- Advanced -->
+        <div class="text-right">
+            <button class="advanced-container row btn-primary btn" role="button" onclick="advancedButton(this)">
+                Advanced settings
+            </button>
         </div>
 
     </div>
@@ -1664,7 +1676,7 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
         </div>
@@ -2009,7 +2021,7 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
         </div>
@@ -2229,7 +2241,7 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
         </div>
@@ -2507,7 +2519,7 @@
     <div>
         <h4>Pick a template!</h4>
         <div class="text-center">
-            <button class="btn btn-primary col-sm-4 template-button" onclick="bossBlankSlateButton(this)">
+            <button class="btn btn-primary col-sm-4 template-button" onclick="blankSlateButton(this)">
                 Blank Slate
             </button>
         </div>
@@ -2795,43 +2807,6 @@
     </div>
 </template>
 
-<template id="template-custom-bosses-unique-loot">
-
-</template>
-
-<template id="template-unique-loot">
-    <div class="form-group row" data-template="template-unique-loot">
-        <label class="col-sm-3 col-form-label">
-            <a href="#" data-toggle="tooltip"
-               data-placement="left"
-               title="String tooltip.">Unique Loot:</a>
-        </label>
-
-        <!-- Input -->
-        <div class="col-sm-9 config-entry config-list row" data-config-key="uniqueLootList">
-            <button class="btn btn-primary col" onclick="simpleLootButton(this)">
-                Simple
-            </button>
-            <button class="btn btn-primary col" onclick="advancedLootButton(this)">
-                Advanced
-            </button>
-        </div>
-    </div>
-</template>
-
-<template id="template-custom-bosses-simple-loot">
-    <input type="text" class="form-control col-sm-10" placeholder="default value" list="custom-item-filename-names">
-    <!-- Input -->
-    <input type="number" class="form-control col-sm-2" placeholder="Chance" max="1" min="0" step="0.01">
-</template>
-
-<template id="template-custom-bosses-advanced-loot">
-    <input type="text"
-           class="form-control col-sm-10" placeholder="default value">
-    <!-- Input -->
-    <input type="number" class="form-control col-sm-2" placeholder="Chance" max="1" min="0" step="0.01">
-</template>
-
 <!-- All input types. Copy-paste from here to create new entries! -->
 <template>
     <!--Filename-->
@@ -2950,7 +2925,6 @@
 <datalist id="profession-API-names"></datalist>
 <datalist id="interaction-type-API-names"></datalist>
 <datalist id="biome-API-names"></datalist>
-
 
 </body>
 </html>

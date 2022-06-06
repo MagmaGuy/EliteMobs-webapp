@@ -182,8 +182,16 @@ function getCard(currentElement) {
 }
 
 //Global scripts
+/**
+ * Shows all fields on a card when generating any type of file
+ * @param button Blank slate button on the card
+ */
+function blankSlateButton(button) {
+    revealItemFields(button);
+    clearOldContent(button);
+}
 
-function initializeConfigLists(card){;
+function initializeConfigLists(card){
     const container = card.querySelector('.field-container');
     for (const child of container.getElementsByClassName('config-list')) {
         let div = document.createElement("div");

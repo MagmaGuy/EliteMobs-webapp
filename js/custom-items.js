@@ -22,11 +22,6 @@ function revealItemFields(button) {
 }
 
 //Templates
-
-function blankSlateButton(button) {
-    transitionContent(button, 'template-custom-items-amount');
-}
-
 function uniqueDropButton(button) {
     hideField(button, '.item-enabled');
     hideField(button, '.item-drop-weight');

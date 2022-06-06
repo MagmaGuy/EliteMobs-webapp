@@ -7,11 +7,6 @@ function createCustomBossButton(button) {
 }
 
 //Templates
-function bossBlankSlateButton(button) {
-    revealItemFields(button);
-    clearOldContent(button);
-}
-
 function commonHiddenFields(button){
     hideField(button, '.boss-enabled');
     hideField(button, '.boss-persistent');

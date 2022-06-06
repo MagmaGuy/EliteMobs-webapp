@@ -6,18 +6,16 @@ function createTreasureChestButton(button) {
     initializeConfigLists(card);
 }
 
-//Templates
-function blankSlateButton(button) {
+function lootChestButton(button) {
+    hideField(button, '.chest-enabled');
+    hideField(button, '.chest-mimic-chance');
+    hideField(button, '.chest-mimic-custom-bosses');
     revealItemFields(button);
     clearOldContent(button);
 }
 
-function LootChestButton(button) {
-    revealItemFields(button);
-    clearOldContent(button);
-}
-
-function MimicChestButton(button) {
+function mimicChestButton(button) {
+    hideField(button, '.chest-enabled');
     revealItemFields(button);
     clearOldContent(button);
 }
